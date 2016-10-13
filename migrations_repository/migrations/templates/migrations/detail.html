@@ -1,0 +1,76 @@
+{% extends 'migrations/base.html' %}
+{% block title %}{{ plan }}{% endblock %}
+{% block plans_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid circuits-container">
+
+    <div class="row">
+
+        <!-- Left Plan Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'migrations:detail' plan.id %}">
+                        
+                            
+                        
+                    </a>
+                    <h1>{{ plan.plan_number }} <small>{{ plan.plan_type }}</small></h1>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Circuit Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'migrations:detail' plan.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'migrations:create_circuit' plan.id %}">Add New Circuit</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Circuits</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Circuit</th>
+                            <th>Cut File</th>
+                            <th>CMC_number</th>
+                            <th>Cut _LEC</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for circuit in plan.circuit_set.all %}
+                            <tr>
+                                <td>{{ circuit.cut_date }}</td>
+                                <td>
+                                    <a target="_blank" href="{{ circuit.cut_file.url }}">
+                                        <button type="button" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                        </button>
+                                    </a>
+                                </td> 
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'migrations/base.html' %}
+{% block title %}All Circuits{% endblock %}
+{% block circuits_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" {% if filter_by == 'all' %}class="active"{% endif %}><a href="{% url 'migrations:circuits' 'all' %}">View All</a></li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cut Date</th>
+                                <th>Cut Lec</th>
+                                <th>Cut File</th>
+                                <th>CMC ticket</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for circuit in circuit_list %}
+                                <tr>
+                                    <td>{{ circuit.cut_date }}</td>
+                                    <td>{{ circuit.plan.plan_number }}</td>
+                                    <td>
+                                        <a target="_blank" href="{{ circuit.cut_file.url }}">
+                                            <button type="button" class="btn btn-success btn-xs">
+                                                <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'migrations:detail' circuit.plan.id %}">
+                                            
+                                        </a>
+                                        <a href="{% url 'migrations:detail' circuit.plan.id %}">{{ circuit.plan.plan_number }}</a>
+                                    </td>
+                                    <td>
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

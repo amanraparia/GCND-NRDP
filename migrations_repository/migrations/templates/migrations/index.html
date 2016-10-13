@@ -1,0 +1,91 @@
+{% extends 'migrations/base.html' %}
+{% block plans_active %}active{% endblock %}
+{% block body %}
+<div class="plans-container container-fluid">
+
+
+    <!-- Plans -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ user.username }}'s Plans</h3>
+        </div>
+        {% if plans %}
+            {% for plan in plans %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a href="{% url 'migrations:detail' plan.id %}">
+                            
+                        </a>
+                        <div class="caption">
+                            <h2>{{ plan.plan_type }}</h2>
+
+                            <!-- View Details -->
+                            <a href="{% url 'migrations:detail' plan.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% else %}
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'migrations:create_plan' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add an Plan
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- If user searches and there are songs -->
+    {% if songs %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Songs</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Cut date</th>
+                                    <th>Cut Lec</th>
+                                    <th>Cut File</th>
+                                    <th>CMC Ticket</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for circuit in circuits %}
+                                    <tr>
+                                        <td>{{ circuit.cut_date }}</td>
+                                        <td>{{ circuit.plan.cut_lec }}</td>
+                                        <td>
+                                            <a target="_blank" href="{{ circuit.cut_file.url }}">
+                                                <button type="button" class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'migrations:detail' circuit.plan.id %}">
+                                                
+                                            </a>
+                                            <a href="{% url 'migrations:detail' circuit.plan.id %}">{{ circuit.plan.plan_number }}</a>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
